@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+body {
+  font-family: "Inter", sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Special Gothic Condensed One", sans-serif;
+}
+
+.backdrop-blur-lg {
+  backdrop-filter: blur(8px);
+}
+
+.animate-bounce {
+  animation: bounce 1.5s infinite;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-25px);
+  }
+}
