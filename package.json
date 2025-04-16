@@ -3,7 +3,6 @@
     "@tailwindcss/cli": "^4.1.4"
   },
   "scripts": {
-    "watch": "npx tailwindcss -i ./Themes/Theme.css -o ./wwwroot/css/theme.css --watch",
-    "build": "npx tailwindcss -i ./Themes/Theme.css -o ./wwwroot/css/theme.css --minify"
+    "watch": "npx tailwindcss -i ./Themes/Theme.css -o ./wwwroot/css/theme.css --watch"
   }
 }
