@@ -51,8 +51,15 @@ else
         <div class="space-y-4">
           @foreach (var package in details.Packages)
           {
+            var iconColorParts = details.IconColor.Split('-');
+            var colorName = iconColorParts.Length > 1 ? iconColorParts[1] : "gray"; // Default to gray if split fails
+            var selectedBgClass = $"bg-{colorName}-600/30";
+            var popularBgClass = $"bg-{colorName}-600/20";
+            var defaultBgClass = "bg-[#2d2d25]";
+
             <div
-              class="border border-gray-700 rounded-lg p-4 hover:@details.HoverBorderColor cursor-pointer transition @(package.IsPopular ? $"bg-opacity-20 bg-{details.GradientClasses.Split('-')[1]}-900" : "bg-[#2d2d25]")">
+              @onclick="() => SelectPackage(package)"
+              class="rounded-lg p-4 cursor-pointer transition border border-gray-700 hover:@details.HoverBorderColor @(selectedPackage == package ? selectedBgClass : (package.IsPopular ? popularBgClass : defaultBgClass))">
               <div class="flex justify-between items-center">
                 <div>
                   <span class="font-bold text-gray-200">@package.Name</span>
@@ -84,9 +91,15 @@ else
 
 @code {
     private GoldServiceDetails? details;
+    private Package? selectedPackage;
 
     protected override async Task OnInitializedAsync()
     {
         details = await GoldService.GetGoldDetailsAsync();
+    }
+
+    private void SelectPackage(Package package)
+    {
+        selectedPackage = package;
     }
 }
