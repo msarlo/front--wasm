@@ -1,145 +1,93 @@
 @page "/itens"
+@using front__wasm.Models
+@using front__wasm.Services
+@inject ItemService ItemService
 
-<ServiceTemplate 
-  Title="Itens Especiais" 
-  Description="Obtenha os itens mais raros e cobiçados do jogo. Armas legendárias, montarias raras, transmogs exclusivos e muito mais."
-  GradientClasses="from-green-700 to-teal-600">
-  <LeftContent>
-    <h2 class="text-3xl font-bold mb-6">Categorias de Itens Disponíveis</h2>
-    <ul class="space-y-4">
-      <li class="flex items-start">
-        <svg
-          class="h-6 w-6 text-green-600 mr-2"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M5 13l4 4L19 7" />
-        </svg>
-        <span>Montarias raras com chance de drop baixíssima</span>
-      </li>
-      <li class="flex items-start">
-        <svg
-          class="h-6 w-6 text-green-600 mr-2"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M5 13l4 4L19 7" />
-        </svg>
-        <span>Transmogs exclusivos e itens cosméticos</span>
-      </li>
-      <li class="flex items-start">
-        <svg
-          class="h-6 w-6 text-green-600 mr-2"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M5 13l4 4L19 7" />
-        </svg>
-        <span>Armas e equipamentos lendários</span>
-      </li>
-      <li class="flex items-start">
-        <svg
-          class="h-6 w-6 text-green-600 mr-2"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M5 13l4 4L19 7" />
-        </svg>
-        <span>Pets de batalha raros</span>
-      </li>
-      <li class="flex items-start">
-        <svg
-          class="h-6 w-6 text-green-600 mr-2"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M5 13l4 4L19 7" />
-        </svg>
-        <span>Itens de colecionador</span>
-      </li>
-    </ul>
+@if (details == null)
+{
+    <p class="text-center text-white py-10">Carregando detalhes do serviço...</p>
+}
+else
+{
+    <ServiceTemplate 
+      Title="@details.Title" 
+      Description="@details.Description"
+      GradientClasses="@details.GradientClasses"
+      IconColor="@details.IconColor"
+      HoverBorderColor="@details.HoverBorderColor">
+      <LeftContent>
+        <h2 class="text-3xl font-bold mb-6">Categorias de Itens Disponíveis</h2>
+        <ul class="space-y-4">
+          @foreach (var category in details.Categories)
+          {
+            <li class="flex items-start">
+              <svg
+                class="h-6 w-6 @details.IconColor mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7" />
+              </svg>
+              <span>@category</span>
+            </li>
+          }
+        </ul>
 
-    <div class="mt-8">
-      <h3 class="text-2xl font-bold mb-4">Nosso processo de farm</h3>
-      <p class="mb-4">
-        Utilizamos equipes especializadas que trabalham incansavelmente para obter os itens mais
-        raros do jogo. Alguns itens podem levar dias ou semanas para serem adquiridos devido à sua
-        raridade.
-      </p>
-      <p>
-        Todos os itens são obtidos de forma legítima, seguindo as regras do jogo, garantindo a
-        segurança de sua conta.
-      </p>
-    </div>
-  </LeftContent>
-  <RightContent>
-    <div class="bg-[#2d2d25] rounded-lg shadow-lg p-8 border border-gray-700">
-      <h3 class="text-2xl font-bold mb-6 text-center text-gray-200">Itens em Destaque</h3>
-      <div class="space-y-4">
-        <div
-          class="border border-gray-700 rounded-lg p-4 hover:border-green-500 cursor-pointer transition bg-[#2d2d25]">
-          <div class="flex justify-between items-center">
-            <span class="font-bold text-gray-200">Montaria Rara - Rédeas do Raptor Zandalari</span>
-            <span class="text-xl font-bold text-gray-200">R$ 199,90</span>
+        <div class="mt-8">
+          <h3 class="text-2xl font-bold mb-4">@details.FarmingProcessTitle</h3>
+          @foreach (var detail in details.FarmingProcessDetails)
+          {
+            <p class="mb-4">@detail</p>
+          }
+        </div>
+      </LeftContent>
+      <RightContent>
+        <div class="bg-[#2d2d25] rounded-lg shadow-lg p-8 border border-gray-700">
+          <h3 class="text-2xl font-bold mb-6 text-center text-gray-200">@details.FeaturedItemsTitle</h3>
+          <div class="space-y-4">
+            @foreach (var package in details.Packages)
+            {
+              <div
+                class="border border-gray-700 rounded-lg p-4 hover:@details.HoverBorderColor cursor-pointer transition @(package.IsPopular ? $"bg-opacity-20 bg-{details.GradientClasses.Split('-')[1]}-900" : "bg-[#2d2d25]")">
+                <div class="flex justify-between items-center">
+                  <div>
+                    <span class="font-bold text-gray-200">@package.Name</span>
+                    @if (package.IsPopular)
+                    {
+                      <span class="bg-green-500 text-white text-xs px-2 py-1 rounded-full ml-2">Mais Popular</span>
+                    }
+                  </div>
+                  <span class="text-xl font-bold text-gray-200">@package.Price</span>
+                </div>
+              </div>
+            }
+          </div>
+          <div class="mt-8">
+            <button
+              @onclick="@(() => Console.WriteLine("Add to cart"))"
+              class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 mb-4">
+              Adicionar ao Carrinho
+            </button>
+            <button
+              @onclick="@(() => Console.WriteLine("Buy now"))"
+              class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300">
+              Comprar Agora
+            </button>
           </div>
         </div>
-        <div
-          class="border border-gray-700 rounded-lg p-4 hover:border-green-500 cursor-pointer transition bg-opacity-20 bg-green-900">
-          <div class="flex justify-between items-center">
-            <div>
-              <span class="font-bold text-gray-200">Montaria - Cabeça de Al'ar</span>
-              <span class="bg-green-500 text-white text-xs px-2 py-1 rounded-full ml-2"
-                >Mais Popular</span
-              >
-            </div>
-            <span class="text-xl font-bold text-gray-200">R$ 349,90</span>
-          </div>
-        </div>
-        <div
-          class="border border-gray-700 rounded-lg p-4 hover:border-green-500 cursor-pointer transition bg-[#2d2d25]">
-          <div class="flex justify-between items-center">
-            <span class="font-bold text-gray-200">Set de Transmog - Paladino T3</span>
-            <span class="text-xl font-bold text-gray-200">R$ 299,90</span>
-          </div>
-        </div>
-        <div
-          class="border border-gray-700 rounded-lg p-4 hover:border-green-500 cursor-pointer transition bg-[#2d2d25]">
-          <div class="flex justify-between items-center">
-            <span class="font-bold text-gray-200">Pacote de 3 Pets Raros</span>
-            <span class="text-xl font-bold text-gray-200">R$ 89,90</span>
-          </div>
-        </div>
-      </div>
-      <div class="mt-8">
-        <button
-          class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 mb-4">
-          Adicionar ao Carrinho
-        </button>
-        <button
-          class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300">
-          Comprar Agora
-        </button>
-      </div>
-    </div>
-  </RightContent>
-</ServiceTemplate>
+      </RightContent>
+    </ServiceTemplate>
+}
+
+@code {
+    private ItemServiceDetails? details;
+
+    protected override async Task OnInitializedAsync()
+    {
+        details = await ItemService.GetItemDetailsAsync();
+    }
+}

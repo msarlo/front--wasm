@@ -1,0 +1,36 @@
+{
+  "title": "Serviços de Gold",
+  "description": "Obtenha ouro rapidamente de forma segura e garantida. Entregas rápidas em todos os servidores.",
+  "features": [
+    "Entrega garantida em até 24 horas",
+    "Métodos 100% seguros, sem risco para sua conta",
+    "Disponível para todos os servidores"
+  ],
+  "howItWorks": [
+    "Escolha a quantidade de gold desejada",
+    "Forneça as informações de seu personagem e servidor",
+    "Realize o pagamento",
+    "Aguarde o contato de nossa equipe via Discord",
+    "Receba seu gold no jogo!"
+  ],
+  "packages": [
+    {
+      "name": "10.000 Gold",
+      "price": "R$ 19,90",
+      "isPopular": false
+    },
+    {
+      "name": "100.000 Gold",
+      "price": "R$ 149,90",
+      "isPopular": true
+    },
+    {
+      "name": "500.000 Gold",
+      "price": "R$ 599,90",
+      "isPopular": false
+    }
+  ],
+  "gradientClasses": "from-yellow-400 to-yellow-600",
+  "iconColor": "text-yellow-500",
+  "hoverBorderColor": "border-yellow-500"
+}

@@ -1,74 +1,82 @@
 @page "/dungeons"
+@using front__wasm.Models
+@using front__wasm.Services
+@inject DungeonService DungeonService
 
-<ServiceTemplate 
-  Title="Mythic+ Dungeons" 
-  Description="Domine as masmorras mais desafiadoras com nossa equipe experiente. Garantimos completar suas dungeons com chaves altas rapidamente."
-  GradientClasses="from-blue-600 to-indigo-800"
-  IconColor="text-blue-500"
-  HoverBorderColor="border-blue-500">
-  <LeftContent>
-    <h2 class="text-3xl font-bold mb-6">O que nosso serviço de Mythic+ oferece?</h2>
-    <ul class="space-y-4">
-      <CheckListItem Text="Runs rápidas com garantia de conclusão no tempo" IconColor="text-blue-500" />
-      <CheckListItem Text="Equipe composta por jogadores Gladiator/Elite com anos de experiência" IconColor="text-blue-500" />
-      <CheckListItem Text="Loot garantido direcionado para seu personagem" IconColor="text-blue-500" />
-      <CheckListItem Text="Streams privadas para você acompanhar a run" IconColor="text-blue-500" />
-    </ul>
+@if (details == null)
+{
+    <p class="text-center text-white py-10">Carregando detalhes do serviço...</p>
+}
+else
+{
+    <ServiceTemplate 
+      Title="@details.Title" 
+      Description="@details.Description"
+      GradientClasses="@details.GradientClasses"
+      IconColor="@details.IconColor"
+      HoverBorderColor="@details.HoverBorderColor">
+      <LeftContent>
+        <h2 class="text-3xl font-bold mb-6">O que nosso serviço de Mythic+ oferece?</h2>
+        <ul class="space-y-4">
+          @foreach (var feature in details.Features)
+          {
+            <CheckListItem Text="@feature" IconColor="@details.IconColor" />
+          }
+        </ul>
 
-    <div class="mt-8">
-      <h3 class="text-2xl font-bold mb-4">Como funciona?</h3>
-      <ol class="list-decimal pl-5 space-y-2">
-        <li>Escolha o nível da chave e a quantidade de runs</li>
-        <li>Selecione as masmorras específicas ou deixe-nos escolher as mais rápidas</li>
-        <li>Informe detalhes do seu personagem e preferências de loot</li>
-        <li>Realize o pagamento</li>
-        <li>Agende com nossa equipe e receba seu boost!</li>
-      </ol>
-    </div>
-  </LeftContent>
-  <RightContent>
-    <div class="bg-[#2d2d25] rounded-lg shadow-lg p-8 border border-gray-700">
-      <h3 class="text-2xl font-bold mb-6 text-center text-gray-200">Escolha seu pacote</h3>
-      <div class="space-y-4">
-        <div
-          class="border border-gray-700 rounded-lg p-4 hover:border-blue-500 cursor-pointer transition bg-[#2d2d25]">
-          <div class="flex justify-between items-center">
-            <span class="font-bold text-gray-200">Mythic+10 (Única)</span>
-            <span class="text-xl font-bold text-gray-200">R$ 49,90</span>
+        <div class="mt-8">
+          <h3 class="text-2xl font-bold mb-4">Como funciona?</h3>
+          <ol class="list-decimal pl-5 space-y-2">
+            @foreach (var step in details.HowItWorks)
+            {
+              <li>@step</li>
+            }
+          </ol>
+        </div>
+      </LeftContent>
+      <RightContent>
+        <div class="bg-[#2d2d25] rounded-lg shadow-lg p-8 border border-gray-700">
+          <h3 class="text-2xl font-bold mb-6 text-center text-gray-200">Escolha seu pacote</h3>
+          <div class="space-y-4">
+            @foreach (var package in details.Packages)
+            {
+              <div
+                class="border border-gray-700 rounded-lg p-4 hover:@details.HoverBorderColor cursor-pointer transition @(package.IsPopular ? $"bg-opacity-20 bg-{details.GradientClasses.Split('-')[1]}-900" : "bg-[#2d2d25]")">
+                <div class="flex justify-between items-center">
+                  <div>
+                    <span class="font-bold text-gray-200">@package.Name</span>
+                    @if (package.IsPopular)
+                    {
+                      <span class="bg-green-500 text-white text-xs px-2 py-1 rounded-full ml-2">Mais Popular</span>
+                    }
+                  </div>
+                  <span class="text-xl font-bold text-gray-200">@package.Price</span>
+                </div>
+              </div>
+            }
+          </div>
+          <div class="mt-8">
+            <button
+              @onclick="@(() => Console.WriteLine("Add to cart"))"
+              class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 mb-4">
+              Adicionar ao Carrinho
+            </button>
+            <button
+              @onclick="@(() => Console.WriteLine("Buy now"))"
+              class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300">
+              Comprar Agora
+            </button>
           </div>
         </div>
-        <div
-          class="border border-gray-700 rounded-lg p-4 hover:border-blue-500 cursor-pointer transition bg-opacity-20 bg-blue-900">
-          <div class="flex justify-between items-center">
-            <div>
-              <span class="font-bold text-gray-200">Pacote 4x Mythic+15</span>
-              <span class="bg-green-500 text-white text-xs px-2 py-1 rounded-full ml-2"
-                >Mais Popular</span
-              >
-            </div>
-            <span class="text-xl font-bold text-gray-200">R$ 189,90</span>
-          </div>
-        </div>
-        <div
-          class="border border-gray-700 rounded-lg p-4 hover:border-blue-500 cursor-pointer transition bg-[#2d2d25]">
-          <div class="flex justify-between items-center">
-            <span class="font-bold text-gray-200">Mythic+20 (Única)</span>
-            <span class="text-xl font-bold text-gray-200">R$ 99,90</span>
-          </div>
-        </div>
-      </div>
-      <div class="mt-8">
-        <button
-          @onclick="@(() => Console.WriteLine("Add to cart"))"
-          class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 mb-4">
-          Adicionar ao Carrinho
-        </button>
-        <button
-          @onclick="@(() => Console.WriteLine("Buy now"))"
-          class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300">
-          Comprar Agora
-        </button>
-      </div>
-    </div>
-  </RightContent>
-</ServiceTemplate>
+      </RightContent>
+    </ServiceTemplate>
+}
+
+@code {
+    private DungeonServiceDetails? details;
+
+    protected override async Task OnInitializedAsync()
+    {
+        details = await DungeonService.GetDungeonDetailsAsync();
+    }
+}
