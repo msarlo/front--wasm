@@ -27,12 +27,48 @@
     </div>
   </LeftContent>
   <RightContent>
-    <PricingCard Title="Escolha seu pacote" HoverBorderColor="border-blue-500" OnAddToCart="@(() => Console.WriteLine("Add to cart"))" OnBuyNow="@(() => Console.WriteLine("Buy now"))">
-      <PricingOptions>
-        <PricingOption Title="Mythic+10 (Única)" Price="R$ 49,90" HoverBorderColor="border-blue-500" />
-        <PricingOption Title="Pacote 4x Mythic+15" Price="R$ 189,90" IsPopular="true" HoverBorderColor="border-blue-500" />
-        <PricingOption Title="Mythic+20 (Única)" Price="R$ 99,90" HoverBorderColor="border-blue-500" />
-      </PricingOptions>
-    </PricingCard>
+    <div class="bg-[#2d2d25] rounded-lg shadow-lg p-8 border border-gray-700">
+      <h3 class="text-2xl font-bold mb-6 text-center text-gray-200">Escolha seu pacote</h3>
+      <div class="space-y-4">
+        <div
+          class="border border-gray-700 rounded-lg p-4 hover:border-blue-500 cursor-pointer transition bg-[#2d2d25]">
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-gray-200">Mythic+10 (Única)</span>
+            <span class="text-xl font-bold text-gray-200">R$ 49,90</span>
+          </div>
+        </div>
+        <div
+          class="border border-gray-700 rounded-lg p-4 hover:border-blue-500 cursor-pointer transition bg-opacity-20 bg-blue-900">
+          <div class="flex justify-between items-center">
+            <div>
+              <span class="font-bold text-gray-200">Pacote 4x Mythic+15</span>
+              <span class="bg-green-500 text-white text-xs px-2 py-1 rounded-full ml-2"
+                >Mais Popular</span
+              >
+            </div>
+            <span class="text-xl font-bold text-gray-200">R$ 189,90</span>
+          </div>
+        </div>
+        <div
+          class="border border-gray-700 rounded-lg p-4 hover:border-blue-500 cursor-pointer transition bg-[#2d2d25]">
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-gray-200">Mythic+20 (Única)</span>
+            <span class="text-xl font-bold text-gray-200">R$ 99,90</span>
+          </div>
+        </div>
+      </div>
+      <div class="mt-8">
+        <button
+          @onclick="@(() => Console.WriteLine("Add to cart"))"
+          class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 mb-4">
+          Adicionar ao Carrinho
+        </button>
+        <button
+          @onclick="@(() => Console.WriteLine("Buy now"))"
+          class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300">
+          Comprar Agora
+        </button>
+      </div>
+    </div>
   </RightContent>
 </ServiceTemplate>
