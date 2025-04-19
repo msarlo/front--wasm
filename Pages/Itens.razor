@@ -1,7 +1,9 @@
 @page "/itens"
-@using front__wasm.Models
+@using front__wasm.Models // Change this line
 @using front__wasm.Services
 @inject ItemService ItemService
+@inject CartService CartService
+@inject NavigationManager NavigationManager
 @using front__wasm.Shared
 
 @if (details == null)
@@ -41,24 +43,31 @@ else
           {
             var iconColorParts = iconColor.Split('-');
             var colorName = iconColorParts.Length > 1 ? iconColorParts[1] : "gray";
-            var selectedBgClass = $"bg-{colorName}-600/30";
-            var popularBgClass = $"bg-{colorName}-600/20";
-            var defaultBgClass = "bg-[#2d2d25]";
+            var selectedBgClass = $"bg-{colorName}-700"; 
+            var defaultBgClass = "bg-[#2d2d25]"; 
+            var hoverBgClass = $"hover:bg-{colorName}-600/40"; 
+            var selectedBorderClass = $"border-{colorName}-500"; // Border for selected
+            var defaultBorderClass = "border-gray-700"; // Border for unselected
+            var hoverBorderClass = $"hover:{selectedBorderClass}"; // Hover border for unselected
 
-            var backgroundClass = selectedPackage == package 
-                                    ? selectedBgClass 
-                                    : (package.IsPopular ? popularBgClass : defaultBgClass);
+            string packageClasses;
+            if (selectedPackage == package)
+            {
+                // Classes for the selected package (solid background, colored border)
+                packageClasses = $"rounded-lg p-4 cursor-pointer transition {selectedBorderClass} {selectedBgClass}";
+            }
+            else
+            {
+                // Classes for unselected packages (default background/border, hover effects)
+                packageClasses = $"rounded-lg p-4 cursor-pointer transition {defaultBorderClass} {hoverBorderClass} {defaultBgClass} {hoverBgClass}";
+            }
 
             <div
               @onclick="() => SelectPackage(package)"
-              class="rounded-lg p-4 cursor-pointer transition border border-gray-700 hover:@hoverBorderColor @backgroundClass">
+              class="@packageClasses"> @* Use the calculated classes *@
               <div class="flex justify-between items-center">
                 <div>
                   <span class="font-bold text-gray-200">@package.Name</span>
-                  @if (package.IsPopular)
-                  {
-                    <span class="bg-green-500 text-white text-xs px-2 py-1 rounded-full ml-2">Mais Popular</span>
-                  }
                 </div>
                 <span class="text-xl font-bold text-gray-200">@package.Price</span>
               </div>
@@ -68,13 +77,15 @@ else
       </PackageSelector>
       <ActionButtons>
         <button
-          @onclick="@(() => Console.WriteLine("Add to cart"))"
-          class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 mb-4">
+          @onclick="AddToCart"
+          disabled="@(selectedPackage == null)"
+          class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 mb-4 disabled:opacity-50 disabled:cursor-not-allowed">
           Adicionar ao Carrinho
         </button>
         <button
-          @onclick="@(() => Console.WriteLine("Buy now"))"
-          class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300">
+          @onclick="BuyNow"
+          disabled="@(selectedPackage == null)"
+          class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
           Comprar Agora
         </button>
       </ActionButtons>
@@ -96,5 +107,32 @@ else
     private void SelectPackage(Package package)
     {
         selectedPackage = package;
+        StateHasChanged(); // Keep this line
+    }
+
+    private void AddToCart()
+    {
+        if (selectedPackage == null || details == null) return;
+
+        var cartItem = new CartItemModel
+        {
+            ImageUrl = "https://via.placeholder.com/80?text=Item", 
+            ImageAlt = $"{details.Title} - {selectedPackage.Name}",
+            Title = $"{details.Title} - {selectedPackage.Name}",
+            Description = selectedPackage.Name, 
+            UnitPrice = selectedPackage.Price,
+            Quantity = 1
+        };
+        CartService.AddItem(cartItem);
+        Console.WriteLine($"{cartItem.Title} added to cart.");
+    }
+
+    private void BuyNow()
+    {
+        AddToCart(); 
+        if (selectedPackage != null)
+        {
+             NavigationManager.NavigateTo("/cart");
+        }
     }
 }

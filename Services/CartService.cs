@@ -1,17 +1,18 @@
 using Microsoft.JSInterop;
 using System.Text.Json;
+using front__wasm.Models;
 
 namespace front__wasm.Services
 {
     public class CartService
     {
-        private List<Pages.Cart.CartItemModel> _cartItems = new List<Pages.Cart.CartItemModel>();
+        private List<CartItemModel> _cartItems = new List<CartItemModel>();
         private readonly IJSRuntime? _jsRuntime;
         private bool _initialized = false;
 
         public event Action? OnChange;
 
-        public IReadOnlyList<Pages.Cart.CartItemModel> CartItems => _cartItems.AsReadOnly();
+        public IReadOnlyList<CartItemModel> CartItems => _cartItems.AsReadOnly();
 
         public int Count => _cartItems.Sum(item => item.Quantity);
 
@@ -33,7 +34,7 @@ namespace front__wasm.Services
 
                     if (!string.IsNullOrEmpty(storedCart))
                     {
-                        var savedItems = JsonSerializer.Deserialize<List<Pages.Cart.CartItemModel>>(storedCart);
+                        var savedItems = JsonSerializer.Deserialize<List<CartItemModel>>(storedCart);
                         if (savedItems != null && savedItems.Any())
                         {
                             _cartItems = savedItems;
@@ -58,7 +59,7 @@ namespace front__wasm.Services
         {
             if (!_cartItems.Any())
             {
-                _cartItems.Add(new Pages.Cart.CartItemModel
+                _cartItems.Add(new CartItemModel
                 {
                     ImageUrl = "https://via.placeholder.com/80?text=Gold",
                     ImageAlt = "Gold Service",
@@ -68,7 +69,7 @@ namespace front__wasm.Services
                     Quantity = 1
                 });
 
-                _cartItems.Add(new Pages.Cart.CartItemModel
+                _cartItems.Add(new CartItemModel
                 {
                     ImageUrl = "https://via.placeholder.com/80?text=Gold",
                     ImageAlt = "Gold Service",
@@ -80,7 +81,7 @@ namespace front__wasm.Services
             }
         }
 
-        public void AddItem(Pages.Cart.CartItemModel item)
+        public void AddItem(CartItemModel item)
         {
             var existingItem = _cartItems.FirstOrDefault(i =>
                 i.Title == item.Title &&
@@ -99,7 +100,7 @@ namespace front__wasm.Services
             NotifyStateChanged();
         }
 
-        public void UpdateQuantity(Pages.Cart.CartItemModel item, int newQuantity)
+        public void UpdateQuantity(CartItemModel item, int newQuantity)
         {
             var existingItem = _cartItems.FirstOrDefault(i => i == item);
             if (existingItem != null)
@@ -110,7 +111,7 @@ namespace front__wasm.Services
             }
         }
 
-        public void RemoveItem(Pages.Cart.CartItemModel item)
+        public void RemoveItem(CartItemModel item)
         {
             _cartItems.Remove(item);
             SaveCartToStorage();
