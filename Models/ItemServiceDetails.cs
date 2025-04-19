@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace front__wasm.Models
 {
   public class ItemServiceDetails
@@ -9,7 +7,7 @@ namespace front__wasm.Models
     public List<string> Categories { get; set; } = new List<string>();
     public string FarmingProcessTitle { get; set; } = "";
     public List<string> FarmingProcessDetails { get; set; } = new List<string>();
-    public List<Package> Packages { get; set; } = new List<Package>(); // Reusing the Package class
+    public List<Package> Packages { get; set; } = new List<Package>();
     public string GradientClasses { get; set; } = "";
     public string IconColor { get; set; } = "";
     public string HoverBorderColor { get; set; } = "";

@@ -14,6 +14,7 @@ builder.Services.AddScoped<DungeonService>();
 builder.Services.AddScoped<GoldService>();
 builder.Services.AddScoped<ItemService>();
 builder.Services.AddScoped<PvpService>();
+builder.Services.AddScoped<RaidService>();
 
 builder.Logging.SetMinimumLevel(LogLevel.Debug);
 

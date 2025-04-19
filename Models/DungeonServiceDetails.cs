@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace front__wasm.Models
 {
   public class DungeonServiceDetails
