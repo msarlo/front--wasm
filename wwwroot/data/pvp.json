@@ -34,8 +34,5 @@
       "isPopular": false
     }
   ],
-  "gradientClasses": "from-red-700 to-red-900",
-  "iconColor": "text-red-600",
-  "hoverBorderColor": "border-red-500",
   "packagesTitle": "Escolha seu pacote"
 }

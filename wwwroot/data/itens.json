@@ -35,8 +35,5 @@
       "isPopular": false
     }
   ],
-  "gradientClasses": "from-green-700 to-teal-600",
-  "iconColor": "text-green-600",
-  "hoverBorderColor": "border-green-500",
   "featuredItemsTitle": "Itens em Destaque"
 }

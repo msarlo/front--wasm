@@ -12,8 +12,6 @@
 
     private async Task HandleCheckoutClick()
     {
-        // Chame diretamente o callback do componente pai (Cart)
-        // sem mostrar um diálogo próprio
         await OnCheckoutClicked.InvokeAsync();
     }
 }
@@ -49,6 +47,4 @@
         </svg>
         Pagamento seguro
     </div>
-    
-    <!-- Removi o CheckoutConfirmationDialog daqui -->
 </div>

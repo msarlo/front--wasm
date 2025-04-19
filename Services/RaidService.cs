@@ -1,9 +1,5 @@
 using System.Net.Http.Json;
 using front__wasm.Models;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Net.Http;
 
 namespace front__wasm.Services
 {

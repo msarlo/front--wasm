@@ -12,9 +12,9 @@ else
     <ServiceTemplate 
       Title="@details.Title" 
       Description="@details.Description"
-      GradientClasses="@details.GradientClasses"
-      IconColor="@details.IconColor"
-      HoverBorderColor="@details.HoverBorderColor">
+      GradientClasses="@gradientClasses"
+      IconColor="@iconColor"
+      HoverBorderColor="@hoverBorderColor">
       <ServiceFeatures>
         <h2 class="text-3xl font-bold mb-6">Categorias de Itens Disponíveis</h2>
         <ul class="space-y-4">
@@ -22,7 +22,7 @@ else
           {
             <li class="flex items-start">
               <svg
-                class="h-6 w-6 @details.IconColor mr-2"
+                class="h-6 w-6 @iconColor mr-2"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor">
@@ -49,15 +49,19 @@ else
         <div class="space-y-4">
           @foreach (var package in details.Packages)
           {
-            var iconColorParts = details.IconColor.Split('-');
-            var colorName = iconColorParts.Length > 1 ? iconColorParts[1] : "gray"; // Default to gray if split fails
+            var iconColorParts = iconColor.Split('-');
+            var colorName = iconColorParts.Length > 1 ? iconColorParts[1] : "gray";
             var selectedBgClass = $"bg-{colorName}-600/30";
             var popularBgClass = $"bg-{colorName}-600/20";
             var defaultBgClass = "bg-[#2d2d25]";
 
+            var backgroundClass = selectedPackage == package 
+                                    ? selectedBgClass 
+                                    : (package.IsPopular ? popularBgClass : defaultBgClass);
+
             <div
               @onclick="() => SelectPackage(package)"
-              class="rounded-lg p-4 cursor-pointer transition border border-gray-700 hover:@details.HoverBorderColor @(selectedPackage == package ? selectedBgClass : (package.IsPopular ? popularBgClass : defaultBgClass))">
+              class="rounded-lg p-4 cursor-pointer transition border border-gray-700 hover:@hoverBorderColor @backgroundClass">
               <div class="flex justify-between items-center">
                 <div>
                   <span class="font-bold text-gray-200">@package.Name</span>
@@ -90,6 +94,9 @@ else
 @code {
     private ItemServiceDetails? details;
     private Package? selectedPackage;
+    private string gradientClasses = "from-green-700 to-teal-600";
+    private string iconColor = "text-green-600";
+    private string hoverBorderColor = "border-green-500";
 
     protected override async Task OnInitializedAsync()
     {
