@@ -2,6 +2,7 @@
 @using front__wasm.Models
 @using front__wasm.Services
 @inject ItemService ItemService
+@using front__wasm.Shared
 
 @if (details == null)
 {
@@ -16,36 +17,25 @@ else
       IconColor="@iconColor"
       HoverBorderColor="@hoverBorderColor">
       <ServiceFeatures>
-        <h2 class="text-3xl font-bold mb-6">Categorias de Itens Disponíveis</h2>
+        <h2 class="text-3xl font-bold mb-6">@details.FeaturesTitle</h2>
         <ul class="space-y-4">
-          @foreach (var category in details.Categories)
+          @foreach (var category in details.Features)
           {
-            <li class="flex items-start">
-              <svg
-                class="h-6 w-6 @iconColor mr-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M5 13l4 4L19 7" />
-              </svg>
-              <span>@category</span>
-            </li>
+            <CheckListItem Text="@category" IconColor="@iconColor" />
           }
         </ul>
       </ServiceFeatures>
       <ServiceDetails>
-        <h3 class="text-2xl font-bold mb-4">@details.FarmingProcessTitle</h3>
-        @foreach (var detail in details.FarmingProcessDetails)
-        {
-          <p class="mb-4">@detail</p>
-        }
+        <h3 class="text-2xl font-bold mb-4">@details.DetailsTitle</h3>
+        <ul class="space-y-2">
+          @foreach (var detail in details.Details)
+          {
+            <li>@detail</li>
+          }
+        </ul>
       </ServiceDetails>
       <PackageSelector>
-        <h3 class="text-2xl font-bold mb-6 text-center text-gray-200">@details.FeaturedItemsTitle</h3>
+        <h3 class="text-2xl font-bold mb-6 text-center text-gray-200">@details.PackagesTitle</h3>
         <div class="space-y-4">
           @foreach (var package in details.Packages)
           {

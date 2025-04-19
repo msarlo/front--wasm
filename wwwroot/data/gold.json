@@ -1,18 +1,21 @@
 {
   "title": "Serviços de Gold",
   "description": "Obtenha ouro rapidamente de forma segura e garantida. Entregas rápidas em todos os servidores.",
+  "featuresTitle": "Por que escolher nosso serviço de Gold?",
   "features": [
     "Entrega garantida em até 24 horas",
     "Métodos 100% seguros, sem risco para sua conta",
     "Disponível para todos os servidores"
   ],
-  "howItWorks": [
-    "Escolha a quantidade de gold desejada",
-    "Forneça as informações de seu personagem e servidor",
-    "Realize o pagamento",
-    "Aguarde o contato de nossa equipe via Discord",
-    "Receba seu gold no jogo!"
+  "detailsTitle": "Como funciona?",
+  "details": [
+    "1. Escolha a quantidade de gold desejada",
+    "2. Forneça as informações de seu personagem e servidor",
+    "3. Realize o pagamento",
+    "4. Aguarde o contato de nossa equipe via Discord",
+    "5. Receba seu gold no jogo!"
   ],
+  "packagesTitle": "Escolha seu pacote",
   "packages": [
     {
       "name": "10.000 Gold",

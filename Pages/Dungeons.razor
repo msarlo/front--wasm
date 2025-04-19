@@ -2,6 +2,7 @@
 @using front__wasm.Models
 @using front__wasm.Services
 @inject DungeonService DungeonService
+@using front__wasm.Shared
 
 @if (details == null)
 {
@@ -16,7 +17,7 @@ else
       IconColor="@iconColor"
       HoverBorderColor="@hoverBorderColor">
       <ServiceFeatures>
-        <h2 class="text-3xl font-bold mb-6">O que nosso serviço de Mythic+ oferece?</h2>
+        <h2 class="text-3xl font-bold mb-6">@details.FeaturesTitle</h2>
         <ul class="space-y-4">
           @foreach (var feature in details.Features)
           {
@@ -25,16 +26,16 @@ else
         </ul>
       </ServiceFeatures>
       <ServiceDetails>
-        <h3 class="text-2xl font-bold mb-4">Como funciona?</h3>
-        <ol class="list-decimal pl-5 space-y-2">
-          @foreach (var step in details.HowItWorks)
+        <h3 class="text-2xl font-bold mb-4">@details.DetailsTitle</h3>
+        <ul class="list-disc pl-5 space-y-2">
+          @foreach (var step in details.Details)
           {
             <li>@step</li>
           }
-        </ol>
+        </ul>
       </ServiceDetails>
       <PackageSelector>
-        <h3 class="text-2xl font-bold mb-6 text-center text-gray-200">Escolha seu pacote</h3>
+        <h3 class="text-2xl font-bold mb-6 text-center text-gray-200">@details.PackagesTitle</h3>
         <div class="space-y-4">
           @foreach (var package in details.Packages)
           {

@@ -1,18 +1,20 @@
 {
   "title": "Itens Especiais",
   "description": "Obtenha os itens mais raros e cobiçados do jogo. Armas legendárias, montarias raras, transmogs exclusivos e muito mais.",
-  "categories": [
+  "featuresTitle": "Categorias de Itens Disponíveis",
+  "features": [
     "Montarias raras com chance de drop baixíssima",
     "Transmogs exclusivos e itens cosméticos",
     "Armas e equipamentos lendários",
     "Pets de batalha raros",
     "Itens de colecionador"
   ],
-  "farmingProcessTitle": "Nosso processo de farm",
-  "farmingProcessDetails": [
+  "detailsTitle": "Nosso processo de farm",
+  "details": [
     "Utilizamos equipes especializadas que trabalham incansavelmente para obter os itens mais raros do jogo. Alguns itens podem levar dias ou semanas para serem adquiridos devido à sua raridade.",
     "Todos os itens são obtidos de forma legítima, seguindo as regras do jogo, garantindo a segurança de sua conta."
   ],
+  "packagesTitle": "Itens em Destaque",
   "packages": [
     {
       "name": "Montaria Rara - Rédeas do Raptor Zandalari",
@@ -34,6 +36,5 @@
       "price": "R$ 89,90",
       "isPopular": false
     }
-  ],
-  "featuredItemsTitle": "Itens em Destaque"
+  ]
 }
