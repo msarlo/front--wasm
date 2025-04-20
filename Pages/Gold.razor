@@ -1,10 +1,11 @@
 @page "/gold"
-@using front__wasm.Models // Change this line
+@using front__wasm.Models 
 @using front__wasm.Services
+@using front__wasm.Shared
+
 @inject GoldService GoldService
 @inject CartService CartService
 @inject NavigationManager NavigationManager
-@using front__wasm.Shared
 
 @if (details == null)
 {
@@ -43,28 +44,27 @@ else
           {
             var iconColorParts = iconColor.Split('-');
             var colorName = iconColorParts.Length > 1 ? iconColorParts[1] : "gray";
-            var selectedBgClass = $"bg-{colorName}-700"; 
+            var selectedBgClass = $"bg-{colorName}-700 shadow-lg"; 
             var defaultBgClass = "bg-[#2d2d25]"; 
             var hoverBgClass = $"hover:bg-{colorName}-600/40"; 
-            var selectedBorderClass = $"border-{colorName}-500"; // Border for selected
-            var defaultBorderClass = "border-gray-700"; // Border for unselected
-            var hoverBorderClass = $"hover:{selectedBorderClass}"; // Hover border for unselected
+            var selectedBorderClass = $"border-{colorName}-500 border-4"; 
+            var defaultBorderClass = "border-gray-700 border-2"; 
+            var hoverBorderClass = $"hover:{selectedBorderClass}"; 
 
             string packageClasses;
             if (selectedPackage == package)
             {
-                // Classes for the selected package (solid background, colored border)
                 packageClasses = $"rounded-lg p-4 cursor-pointer transition {selectedBorderClass} {selectedBgClass}";
             }
             else
             {
-                // Classes for unselected packages (default background/border, hover effects)
                 packageClasses = $"rounded-lg p-4 cursor-pointer transition {defaultBorderClass} {hoverBorderClass} {defaultBgClass} {hoverBgClass}";
             }
 
             <div
+              @key="package.Name"
               @onclick="() => SelectPackage(package)"
-              class="@packageClasses"> @* Use the calculated classes *@
+              class="@packageClasses">
               <div class="flex justify-between items-center">
                 <div>
                   <span class="font-bold text-gray-200">@package.Name</span>
@@ -108,7 +108,7 @@ else
     private void SelectPackage(Package package)
     {
         selectedPackage = package;
-        StateHasChanged(); // Keep this line
+        StateHasChanged();
     }
 
     private void AddToCart()
