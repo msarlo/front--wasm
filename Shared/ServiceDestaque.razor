@@ -19,7 +19,8 @@
 }
 
 <div class="relative bg-gray-800 rounded-lg overflow-hidden shadow-lg transition duration-300 hover:scale-105 flex flex-col h-full min-h-[700px]"
-     onmouseover="this.style.boxShadow = '0 0 20px @GlowColor'; this.style.borderColor = '@GlowColor'; this.style.borderWidth = '2px'; this.style.borderStyle = 'solid';"
+     style="--glow-color: @GlowColor"
+     onmouseover="this.style.boxShadow = '0 0 20px var(--glow-color)'; this.style.borderColor = 'var(--glow-color)'; this.style.borderWidth = '2px'; this.style.borderStyle = 'solid';"
      onmouseout="this.style.boxShadow = ''; this.style.border = '';">
   <div class="overflow-hidden h-80 sm:h-96 md:h-[26rem] lg:h-[28rem]">
     <img 
@@ -33,8 +34,8 @@
     <div class="flex justify-end items-center mt-5">
       <a
         href="@DetailsUrl"
-        class="hover:text-[#f1c533] transition text-white font-bold py-2"
-        >Saiba Mais →
+        class="hover:text-[var(--glow-color)] transition text-white font-bold py-2">
+        Saiba Mais
       </a>
     </div>
   </div>

@@ -1,3 +1,5 @@
+@using front__wasm.Services
+
 @code {
     [Parameter]
     public decimal Subtotal { get; set; }
@@ -8,11 +10,15 @@
     [Parameter]
     public EventCallback OnCheckoutClicked { get; set; }
 
+    [Parameter]
+    public bool IsLoading { get; set; } = false;
+
     private decimal Total => Subtotal + ServiceFee;
 
     private async Task HandleCheckout()
     {
-        await OnCheckoutClicked.InvokeAsync();
+        if (!IsLoading && Subtotal > 0)
+            await OnCheckoutClicked.InvokeAsync();
     }
 }
 
@@ -22,23 +28,27 @@
     <div class="space-y-4 mb-6">
         <div class="flex justify-between text-gray-300">
             <span>Subtotal</span>
-            <span class="font-medium">R$ @(Subtotal.ToString("F2").Replace(".", ","))</span>
+            <span class="font-medium">@CartService.FormatCurrency(Subtotal)</span>
         </div>
         <div class="flex justify-between text-gray-300">
             <span>Taxa de Serviço</span>
-            <span class="font-medium">R$ @(ServiceFee.ToString("F2").Replace(".", ","))</span>
+            <span class="font-medium">@CartService.FormatCurrency(ServiceFee)</span>
         </div>
         <div class="border-t border-gray-700 pt-4 flex justify-between">
             <span class="font-bold text-gray-200">Total</span>
-            <span class="font-bold text-yellow-400 text-xl">R$ @(Total.ToString("F2").Replace(".", ","))</span>
+            <span class="font-bold text-yellow-400 text-xl">@CartService.FormatCurrency(Total)</span>
         </div>
     </div>
     
     <button 
         @onclick="HandleCheckout"
-        disabled="@(Subtotal <= 0)"
+        disabled="@(Subtotal <= 0 || IsLoading)"
         class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
-        Finalizar Compra
+        @if (IsLoading) {
+            <span>Processando...</span>
+        } else {
+            <span>Finalizar Compra</span>
+        }
     </button>
     
     <div class="mt-6 text-sm text-gray-400">

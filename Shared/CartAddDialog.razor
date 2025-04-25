@@ -25,6 +25,13 @@
         ? "opacity-100" 
         : "opacity-0";
     
+    protected virtual string GetIconColor() => "text-blue-500";
+    protected virtual string GetIconBackgroundColor() => "bg-blue-900/30";
+    
+    protected virtual RenderFragment RenderIcon() => @<svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 md:h-14 md:w-14 @GetIconColor()" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+    </svg>;
+
     private System.Threading.Timer? _timer;
 
     protected override void OnParametersSet()
@@ -69,18 +76,14 @@
 @if (isRendered)
 {
     <div class="fixed inset-0 z-50 flex items-center justify-center p-4" @onclick="HandleClose">
-        <!-- Backdrop with blur effect -->
         <div class="absolute inset-0 backdrop-blur-md bg-black/50 transition-opacity duration-300 ease-out @backdropClasses"></div>
         
         <div class="relative bg-[#2d2d25] text-gray-200 rounded-lg p-6 md:p-8 w-full max-w-lg mx-auto shadow-2xl border border-gray-700 z-10
                   transition-all duration-300 ease-out @dialogClasses"
              @onclick:stopPropagation>
             <div class="flex flex-col items-center text-center">
-                <!-- Blue cart icon with animation -->
-                <div class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-blue-900/30 flex items-center justify-center mb-4 md:mb-6 animate-pulse">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 md:h-14 md:w-14 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
+                <div class="w-20 h-20 md:w-24 md:h-24 rounded-full @GetIconBackgroundColor() flex items-center justify-center mb-4 md:mb-6 animate-pulse">
+                    @RenderIcon()
                 </div>
                 
                 <h3 class="text-xl md:text-2xl font-bold mb-2 md:mb-3">@Title</h3>

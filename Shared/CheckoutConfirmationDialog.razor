@@ -56,23 +56,26 @@
     {
         DisposeTimer();
     }
+
+    protected virtual string GetIconColor() => "text-green-500";
+    protected virtual string GetIconBackgroundColor() => "bg-green-900/30";
+    
+    protected virtual RenderFragment RenderIcon() => @<svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 md:h-14 md:w-14 @GetIconColor()" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+    </svg>;
 }
 
 @if (isRendered)
 {
     <div class="fixed inset-0 z-50 flex items-center justify-center p-4" @onclick="HandleClose">
-        <!-- Backdrop with blur effect -->
         <div class="absolute inset-0 backdrop-blur-md bg-black/50 transition-opacity duration-300 ease-out @backdropClasses"></div>
         
         <div class="relative bg-[#2d2d25] text-gray-200 rounded-lg p-6 md:p-8 w-full max-w-lg mx-auto shadow-2xl border border-gray-700 z-10
                    transition-all duration-300 ease-out @dialogClasses"
              @onclick:stopPropagation>
             <div class="flex flex-col items-center text-center">
-                <!-- Green checkmark icon with improved animation -->
-                <div class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-green-900/30 flex items-center justify-center mb-4 md:mb-6 animate-pulse">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 md:h-14 md:w-14 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                    </svg>
+                <div class="w-20 h-20 md:w-24 md:h-24 rounded-full @GetIconBackgroundColor() flex items-center justify-center mb-4 md:mb-6 animate-pulse">
+                    @RenderIcon()
                 </div>
                 
                 <h3 class="text-xl md:text-2xl font-bold mb-2 md:mb-3">@Title</h3>

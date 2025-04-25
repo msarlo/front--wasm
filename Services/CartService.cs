@@ -1,6 +1,7 @@
 using Microsoft.JSInterop;
 using System.Text.Json;
 using front__wasm.Models;
+using System.Globalization;
 
 namespace front__wasm.Services
 {
@@ -44,7 +45,6 @@ namespace front__wasm.Services
                 }
                 catch
                 {
-                    // No action needed when storage access fails
                 }
             }
 
@@ -110,5 +110,39 @@ namespace front__wasm.Services
         }
 
         private void NotifyStateChanged() => OnChange?.Invoke();
+
+        public static string FormatCurrency(decimal value)
+        {
+            return $"R$ {value.ToString("F2").Replace(".", ",")}";
+        }
+
+        public static decimal ParseCurrency(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return 0;
+
+            string normalized = value.Replace("R$", "").Trim();
+
+            if (decimal.TryParse(normalized,
+                NumberStyles.Currency,
+                new CultureInfo("pt-BR"),
+                out decimal result))
+            {
+                return result;
+            }
+
+            return 0;
+        }
+
+        public decimal GetSubtotal()
+        {
+            decimal subtotal = 0;
+            foreach (var item in CartItems)
+            {
+                decimal price = ParseCurrency(item.UnitPrice);
+                subtotal += price * item.Quantity;
+            }
+            return subtotal;
+        }
     }
 }

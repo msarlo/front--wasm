@@ -106,22 +106,7 @@
 
     private decimal CalculateSubtotal()
     {
-        decimal subtotal = 0;
-        foreach (var item in CartService.CartItems)
-        {
-            string normalizedPrice = item.UnitPrice
-                .Replace("R$", "")
-                .Trim();
-            
-            if (decimal.TryParse(normalizedPrice, 
-                                System.Globalization.NumberStyles.Currency, 
-                                new System.Globalization.CultureInfo("pt-BR"), 
-                                out decimal price))
-            {
-                subtotal += price * item.Quantity;
-            }
-        }
-        return subtotal;
+        return CartService.GetSubtotal();
     }
 
     private void HandleCheckout()
